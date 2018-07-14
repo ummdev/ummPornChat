@@ -18,12 +18,17 @@ export default class ListSoundsComponent extends Component{
   render(){
     return(
       <div>
-        <SoundPlayerComponent
-          soundURL="http://www.largesound.com/ashborytour/sound/brobob.mp3"
-          coverImage="http://www.largesound.com/ashborytour/sound/brobob.gif"/>
+      {this.state.listSounds.map((value , index)=>{
+        return(
+          <SoundPlayerComponent
+            soundURL={value.soundURL}
+            coverImage={value.coverImageURL}
+            key={index}/>
+        )
+      })}
         <br/>
         <br/>
-        <AddSoundComponent/>
+        <AddSoundComponent pornId={this.props.match.params.userId}/>
       </div>
     )
   }

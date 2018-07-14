@@ -3,13 +3,15 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import firebase from '../../firebase.js';
-const storage = firebase.storage();
+import './index.css'
+import qs from 'qs';
 export default class addNewSound extends Component {
   constructor(props) {
     super(props)
     this.state = {
       coverImage: '',
-      soundPlayer: ''
+      soundPlayer: '',
+      pornId: ''
     };
     this.coverImageURL = this.coverImageURL.bind(this)
     this.soundURL = this.soundURL.bind(this)
@@ -49,38 +51,64 @@ export default class addNewSound extends Component {
       return v.toString(16);
     });
   }
-  upload() {
-    // Promise.all([
-    //   storage.ref(`a.png`).putString(this.state.coverImage, 'data_url').snapshot.ref.getDownloadURL(),
-    //   storage.ref(`b.mp3`).putString(this.state.soundPlayer, 'data_url').snapshot.ref.getDownloadURL()
-    // ]).then((data) => {
-    //   console.log(data)
-    // })
-    storage.ref(`a.png`).putString(this.state.coverImage, 'data_url').snapshot.ref.getDownloadURL().then((data)=>{
+  async upload() {
+    let imageURL = '';
+    let soundURL = '';
+    const storageRef = firebase.storage().ref();
+    const imageUUID = this.uuid()
+    const soundUUID = this.uuid()
+    await storageRef
+      .child(`${imageUUID}.png`)
+      .putString(this.state.coverImage, 'data_url')
+
+    await storageRef
+      .child(`${soundUUID}.mp3`)
+      .putString(this.state.soundPlayer, 'data_url')
+    const imageRef = storageRef.child(`${imageUUID}.png`)
+
+    await imageRef.getDownloadURL().then((data) => {
+      imageURL = data
+    })
+
+    const soundRef = storageRef.child(`${soundUUID}.mp3`)
+    await soundRef.getDownloadURL().then((data) => {
+      soundURL = data
+    })
+
+    const data = qs.stringify({
+      pornStarId: this.props.pornId,
+      soundURL: soundURL,
+      coverImageURL: imageURL
+    })
+    axios.post('https://us-central1-ummproject-b4a9c.cloudfunctions.net/addNewSound', data)
+    .then((data) => {
       console.log(data)
     })
   }
 
   render() {
-    return ( <div >
+    return (
+      <div className="container">
+      <h1>เพิ่มเสียงใหม่</h1>
+      <br/><br/>
       <input
-      type = "file"
-      accept = "image/png"
-      onChange = {
+       type = "file"
+       accept = "image/png"
+       onChange = {
         (event) => this.coverImageURL(event)
       }
       />
+      <br/>
       <input
         type = "file"
         accept = "audio/mp3"
         onChange = {
-        (event) => this.soundURL(event)
+          (event) => this.soundURL(event)
         }
       />
-      <button
-        onClick = {
+      <button onClick = {
         () => this.upload()
-      }> คลิก </button>
+      } > คลิก < /button>
       </div>
     )
   }
