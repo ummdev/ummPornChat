@@ -17,9 +17,8 @@ export default class MainPage extends Component {
   sendText() {
     axios.get(`https://us-central1-ummproject-b4a9c.cloudfunctions.net/getSuggestion`)
       .then(({data}) => {
-        console.log(data)
         this.setState({listPornStars: data})
-        console.log(this.state)
+        this.suggestion()
       })
   }
 
@@ -43,7 +42,6 @@ export default class MainPage extends Component {
             onKeyPress={(event) => {
               if (event.key === 'Enter' && this.state.listPornStars.length === 0) {
                 this.sendText()
-                this.suggestion()
               } else if (event.key === 'Enter' && this.state.listPornStars.length > 0) {
                 this.suggestion()
               }
