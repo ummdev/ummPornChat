@@ -1,0 +1,8 @@
+.suggestionbox{
+  width: 20vw;
+  padding: 1px;
+  color: rgb(12, 194, 226);
+  text-align: center;
+  margin-top: 5px;
+  border-radius: 10px;
+}
