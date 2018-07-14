@@ -8,14 +8,45 @@
   right: 0;
   bottom: 0;
   left: 0;
-  width: 90vw;
+}
+*:focus {
+    outline: none;
+}
+input.message{
+  width: 80vw;
   height: 30px;
   font-size: 20px;
-  padding-left: 20px;
+  padding-left: 10px;
   margin-bottom: 30px;
   margin-left: 20px;
   border-style: solid;
   border-color: gray;
-  border-radius: 10px;
+  border-radius: 5px;
   border-width: 1px;
+}
+button{
+  cursor: pointer;
+  margin-left: 50px;
+  width: 100px;
+  height: 30px;
+  color: black;
+  font-size: 16px;
+  background-color: #64b5f6;
+  border-style: solid;
+  border-color: #64b5f6;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 600px){
+  .container{
+    width: 100vw;
+  }
+  input.message{
+    width: 90vw;
+    margin-left: 0px;
+  }
+  button{
+    width: 100vw;
+    margin-left: 0px;
+  }
 }
