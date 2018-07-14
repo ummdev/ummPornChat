@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route exect path="/" component={MainPage}/>
+          <Route exact path="/" component={MainPage}/>
           <Route path="/sounds/:userId" component={ListSoundsPage}/>
         </div>
       </Router>
