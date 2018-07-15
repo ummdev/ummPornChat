@@ -3,6 +3,20 @@ import './index.css'
 import ChatBoxComponent from '../../components/chatBox';
 import SuggestionBoxComponent from '../../components/suggestionPorn';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import { Media, Player, controls } from 'react-media-player'
+import './index.css'
+const { PlayPause} = controls
+function listSuggestionPornComponent(value , index){
+  return(
+    <Link  to={{pathname: `/sounds/${value.id}`,}} key={index}>
+      <div  className="suggestionbox">
+        <p>{value.name}</p>
+      </div>
+    </Link>
+  )
+}
+
 export default class MainPage extends Component {
   constructor(props) {
     super(props)
@@ -10,8 +24,11 @@ export default class MainPage extends Component {
       text: '',
       listMessages: [],
       listPornStars: [],
-      listSuggestionPorns: []
+      listSuggestionPorns: [],
+      listSounds: [],
+      listSuggestionSound: []
     }
+
   }
 
   sendText() {
@@ -20,6 +37,15 @@ export default class MainPage extends Component {
         this.setState({listPornStars: data})
         this.suggestion()
       })
+  }
+
+  selectPornStar(pornId){
+    console.log(pornId)
+    axios.get(`https://us-central1-ummproject-b4a9c.cloudfunctions.net/getSongsById?pornId=${pornId}`).then(({data})=>{
+      this.setState({
+        listSuggestionSound: data
+      })
+    })
   }
 
   suggestion() {
@@ -31,10 +57,33 @@ export default class MainPage extends Component {
   }
 
   render() {
+
     return (
       <div className="container">
         <ChatBoxComponent listMessages={this.state.listMessages}/>
-        <SuggestionBoxComponent listSuggestion={this.state.listSuggestionPorns}/>
+        {this.state.listSuggestionPorns.map((value , index)=>{
+          return(
+            <div  className="suggestionbox" onClick={this.selectPornStar.bind(this,value.id)} key={index}>
+              <p>{value.name}</p>
+            </div>
+          )
+        })}
+        {this.state.listSuggestionSound.map((value , index)=>{
+          console.log(value)
+          return(
+            <Media key={index}>
+              <div className="media">
+              <img src={value.coverImageURL} className="sound"/>
+                <div className="media-player">
+                  <Player src={value.soundURL}/>
+                </div>
+                <div className="media-controls">
+                  <PlayPause/>
+                </div>
+              </div>
+            </Media>
+          )
+        })}
         <div className="messageInput">
           <input
             className="message"

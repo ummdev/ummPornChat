@@ -50,3 +50,15 @@ button{
     margin-left: 0px;
   }
 }
+.suggestionbox{
+  cursor: pointer;
+  width: 20vw;
+  padding: 1px;
+  color: rgb(12, 194, 226);
+  text-align: center;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+img.sound{
+  width: 100px;
+}
