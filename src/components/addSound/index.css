@@ -6,4 +6,5 @@ div.container{
 h1{
   text-align: center;
   display: block;
+  width: 100vw;
 }
