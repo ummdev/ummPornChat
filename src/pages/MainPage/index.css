@@ -1,18 +1,34 @@
 .container{
   width: 90vw;
   margin-left: 5vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.messageInput{
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.suggest {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 0 1 250px;
+  justify-content: center;
+}
+
+.suggest img {
+  width: 200px;
+  height: 300px;
+}
+
+.suggestionbox{
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  flex: 0 1 250px;
 }
 *:focus {
     outline: none;
 }
 input.message{
+  margin-top: 20px;
   width: 80vw;
   height: 30px;
   font-size: 20px;

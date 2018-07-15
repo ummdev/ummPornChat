@@ -61,13 +61,28 @@ export default class MainPage extends Component {
     return (
       <div className="container">
         <ChatBoxComponent listMessages={this.state.listMessages}/>
-        {this.state.listSuggestionPorns.map((value , index)=>{
-          return(
-            <div  className="suggestionbox" onClick={this.selectPornStar.bind(this,value.id)} key={index}>
-              <p>{value.name}</p>
-            </div>
-          )
-        })}
+        <div className="messageInput">
+          <input
+            className="message"
+            onChange={(event) => this.setState({text: event.target.value})}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter' && this.state.listPornStars.length === 0) {
+                this.sendText()
+              } else if (event.key === 'Enter' && this.state.listPornStars.length > 0) {
+                this.suggestion()
+              }
+              }}/>
+        </div>
+        <div className="suggest">
+          {this.state.listSuggestionPorns.map((value , index)=>{
+            return(
+              <div  className="suggestionbox" onClick={this.selectPornStar.bind(this,value.id)} key={index}>
+                <p>{value.name}</p>
+                <img src={value.image} />
+              </div>
+            )
+          })}
+        </div>
         {this.state.listSuggestionSound.map((value , index)=>{
           console.log(value)
           return(
@@ -84,18 +99,6 @@ export default class MainPage extends Component {
             </Media>
           )
         })}
-        <div className="messageInput">
-          <input
-            className="message"
-            onChange={(event) => this.setState({text: event.target.value})}
-            onKeyPress={(event) => {
-              if (event.key === 'Enter' && this.state.listPornStars.length === 0) {
-                this.sendText()
-              } else if (event.key === 'Enter' && this.state.listPornStars.length > 0) {
-                this.suggestion()
-              }
-              }}/>
-        </div>
     </div>)
   }
 }
